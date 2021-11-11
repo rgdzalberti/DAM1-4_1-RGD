@@ -1,11 +1,39 @@
 var cantidadAlumnos: Int = 3
-var alumnos = arrayOfNulls<Alumno>(cantidadAlumnos)
-var evaluaciones = Array(4) { DoubleArray(cantidadAlumnos) }
+
 
 
 class Modulo
 {
+
+    var alumnos = arrayOfNulls<Alumno>(cantidadAlumnos)
+    var evaluaciones = Array(4) { DoubleArray(cantidadAlumnos) }
     //(filas){columnas} <-- al reves /arrayMin arrayMax chikiar
+
+    fun añadirAlumnos(objeto: Alumno){
+        //meter alumno en el primer null
+        var x : Int = 0
+        while (x != cantidadAlumnos)
+        {
+            if (alumnos[x]==null) {
+                alumnos[x] = objeto
+                x = cantidadAlumnos
+            }
+            else
+            {
+                x++
+            }
+        }
+    }
+
+    fun generarNotas()
+    {
+        for (i in 0..cantidadAlumnos)
+        {
+            evaluaciones[0][i] = (0..10).random().toDouble()
+            evaluaciones[1][i] = (0..10).random().toDouble()
+            evaluaciones[2][i] = (0..10).random().toDouble()
+        }
+    }
 
     fun Modulo(maxAlumnos:Int){
     }
@@ -171,16 +199,31 @@ fun main() {
     var alumno1 = Alumno("1","Juan","Romero","Gutierrez")
     var alumno2 = Alumno("2","Jose","Boquete","Boqueton")
     var alumno3 = Alumno("3","Japa","Montes","Chorba")
-    var alumno4 = Alumno("4","Japa","Montes","Chorba")
-    var alumno5 = Alumno("5","Japa","Montes","Chorba")
-    var alumno6 = Alumno("6","Japa","Montes","Chorba")
-    var alumno7 = Alumno("7","Japa","Montes","Chorba")
-    var alumno8 = Alumno("8","Japa","Montes","Chorba")
-    var alumno9 = Alumno("9","Japa","Montes","Chorba")
-    var alumno10 = Alumno("10","Japa","Montes","Chorba")
+    var alumno4 = Alumno("4","Impresora","De","Ataque")
+    var alumno5 = Alumno("5","Ching","Cheng","Chong")
+    var alumno6 = Alumno("6","Allah","Gonzalez","Rios")
+    var alumno7 = Alumno("7","Mega","Jose","Luis")
+    var alumno8 = Alumno("8","Acabado","Gonzalez","Triple")
+    var alumno9 = Alumno("9","Una","Vez","Más")
+    var alumno10 = Alumno("10","Cojo","Una","Papa")
 
 
-    var Modulo = Modulo()
+    var Modulo1 = Modulo()
+
+    Modulo1.añadirAlumnos(alumno1)
+    Modulo1.añadirAlumnos(alumno2)
+    Modulo1.añadirAlumnos(alumno3)
+    Modulo1.añadirAlumnos(alumno4)
+    Modulo1.añadirAlumnos(alumno5)
+    Modulo1.añadirAlumnos(alumno6)
+    Modulo1.añadirAlumnos(alumno7)
+    Modulo1.añadirAlumnos(alumno8)
+    Modulo1.añadirAlumnos(alumno9)
+    Modulo1.añadirAlumnos(alumno10)
+
+    //Rellenamos las notas de las evaluaciones
+    Modulo1.generarNotas()
+
 
 
 
