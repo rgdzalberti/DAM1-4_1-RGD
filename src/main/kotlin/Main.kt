@@ -167,25 +167,13 @@ class Modulo {
         return primeraNotaSuspensa
     }
 
-    fun listaNotasOrdenados(evaluacion: Int) {
-        var alumnosOrdenados = alumnos
-        var x: Int = 0
-
-        while (x != cantidadAlumnos - 1) {
-            evaluaciones[evaluacion - 1][x]
-        }
-
-        /*alumnosOrdenados.sortWith(nullsLast(compareBy { evaluaciones[evaluacion-1][0]}))
-
-        alumnosOrdenados.forEach {
-            print("${it?.nombre} ${it?.ap1} ${it?.ap2} ")
-            print("de identificador ")
-            print("${it?.id}")
-            println("")
-
-         */
-
+    /*
+    fun listaNotasOrdenados(evaluacion: Int): List<Pair<Int,Float>>{
+        val listNotas = listaNotas(evaluacion)
+        listNotas.sortBy {it.second}
+        return listNotas
     }
+     */
 
     fun matricularAlumno(alumno: Alumno): Boolean {
         var x: Int = 0
