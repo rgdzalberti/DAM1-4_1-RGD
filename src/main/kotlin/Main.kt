@@ -199,6 +199,75 @@ class Modulo
         }
         return primeraNotaSuspensa
     }
+
+    fun listaNotasOrdenados(evaluacion:Int) {
+        var alumnosOrdenados = alumnos
+        var x: Int = 0
+
+        while (x!=cantidadAlumnos-1) {
+            evaluaciones[evaluacion - 1][x]
+        }
+
+        /*alumnosOrdenados.sortWith(nullsLast(compareBy { evaluaciones[evaluacion-1][0]}))
+
+        alumnosOrdenados.forEach {
+            print("${it?.nombre} ${it?.ap1} ${it?.ap2} ")
+            print("de identificador ")
+            print("${it?.id}")
+            println("")
+
+         */
+
+    }
+
+    fun matricularAlumno(alumno:Alumno): Boolean
+    {
+        var x :Int = 0
+        var bool: Boolean = false
+
+        while (x!=cantidadAlumnos-1)
+        {
+            if (alumnos[cantidadAlumnos-1]==null) {
+                if (alumnos[x] == null) {
+                    alumnos[x] = alumno
+                    bool = true
+                    x = cantidadAlumnos - 1
+                } else {
+                    x++
+                }
+            }
+            else
+            {
+                bool = false
+                x = cantidadAlumnos - 1
+            }
+
+        }
+
+        return bool
+    }
+
+    fun bajaAlumno(idAlumno:String): Boolean
+    {
+        var bool: Boolean = false
+        var x: Int = 0
+
+        while (x!=cantidadAlumnos-1)
+        {
+            alumnos[x]
+            if (alumnos[x]?.id==idAlumno)
+            {
+                alumnos[x] = null
+                bool = true
+                x = cantidadAlumnos-1
+            }
+            else
+            {
+                x++
+            }
+        }
+        return bool
+    }
 }
 
 class Alumno (var id: String, var nombre: String, var ap1:String, var ap2:String)
@@ -227,6 +296,11 @@ fun main() {
     var alumno8 = Alumno("8","Acabado","Gonzalez","Triple")
     var alumno9 = Alumno("9","Una","Vez","Más")
     var alumno10 = Alumno("10","Cojo","Una","Papa")
+
+    //Alumnos extras (Para experimentar con añadir y eliminar alumno)
+    var alumno11 = Alumno("11","Pim","Pam","Trucu")
+    var alumno12 = Alumno("12","Pamela","Busca","Cuevas")
+    var alumno13 = Alumno("13","Oraldine","Que","Bueno")
 
 
     var Modulo1 = Modulo()
@@ -320,6 +394,23 @@ fun main() {
     println("En la segunda evaluación " + Modulo1.primeraNotaNoAprobada(2))
     println("En la tercera evaluación " + Modulo1.primeraNotaNoAprobada(3))
     println("")
+
+    //11.Imprimir ordenado
+   //Modulo1.listaNotasOrdenados(1)
+
+    //12.Matricular alumno - printea un true si se añade y false si no
+    println(Modulo1.matricularAlumno(alumno11))
+    println(Modulo1.matricularAlumno(alumno11))
+    println(Modulo1.matricularAlumno(alumno11))
+    println(Modulo1.matricularAlumno(alumno11))
+    println(Modulo1.matricularAlumno(alumno12))
+    println("")
+
+    //13. Dar baja alumnos - printea true si se ha dado de baja y false si no
+    println(Modulo1.bajaAlumno("1"))
+
+
+
 
 
 
