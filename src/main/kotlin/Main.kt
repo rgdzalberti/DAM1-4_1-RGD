@@ -27,11 +27,12 @@ class Modulo
 
     fun generarNotas()
     {
-        for (i in 0..cantidadAlumnos)
+        for (i in 0..cantidadAlumnos - 1)
         {
             evaluaciones[0][i] = (0..10).random().toDouble()
             evaluaciones[1][i] = (0..10).random().toDouble()
             evaluaciones[2][i] = (0..10).random().toDouble()
+
         }
     }
 
@@ -60,16 +61,19 @@ class Modulo
 
     fun calculaEvaluacionFinal(idAlumno:String): Double {
         var x : Int = 0
+        var y: Int = 0
+
 
         //Este while recorre el array alumnos hasta encontrar un id = idAlumno y obtener su posición
-        while (x !=cantidadAlumnos)
+        while (y !=cantidadAlumnos - 1)
         {
-            if (alumnos[x]?.id == idAlumno)
+            if (alumnos[y]?.id == idAlumno)
             {
-                x = cantidadAlumnos
+                y = cantidadAlumnos - 1
             }
             else
             {
+                y++
                 x++
             }
         }
@@ -83,8 +87,10 @@ class Modulo
 
     fun listaNotas(evaluacion:Int)
     {
-       for(x in 0..cantidadAlumnos) {
-           println(evaluaciones[evaluacion - 1][x])
+        println("")
+       for(x in 0..cantidadAlumnos - 1) {
+           print(evaluaciones[evaluacion - 1][x])
+           print(", ")
        }
     }
 
@@ -92,7 +98,7 @@ class Modulo
     {
         var aprobados : Int = 0
 
-        for(x in 0..cantidadAlumnos) {
+        for(x in 0..cantidadAlumnos - 1) {
 
             evaluaciones[evaluacion - 1][x]
 
@@ -123,7 +129,7 @@ class Modulo
     {
         var notaMedia : Double = 0.0
 
-        for(x in 0..cantidadAlumnos) {
+        for(x in 0..cantidadAlumnos - 1) {
             notaMedia = notaMedia + evaluaciones[evaluacion - 1][x]
         }
 
@@ -134,46 +140,61 @@ class Modulo
 
     fun hayAlumnosConDiez(evaluacion:Int): Boolean
     {
-        for(x in 0..cantidadAlumnos) {
+        var resultado: Boolean = true
+        var x: Int = 0
+
+        while(x != cantidadAlumnos - 1) {
             evaluaciones[evaluacion - 1][x]
             if (evaluaciones[evaluacion - 1][x]==10.0)
             {
-                return true
+                resultado = true
+                x = cantidadAlumnos - 1
             }
             else
             {
-                return false
+               resultado = false
+                x++
             }
         }
-        return false
+        return resultado
     }
 
     fun hayAlumnosAprobados(evaluacion:Int): Boolean
     {
-        for(x in 0..cantidadAlumnos) {
+        var resultado: Boolean = true
+        var x: Int = 0
+
+        while(x != cantidadAlumnos - 1) {
             evaluaciones[evaluacion - 1][x]
-            if (evaluaciones[evaluacion - 1][x]==5.0)
+            if (evaluaciones[evaluacion - 1][x]>=5.0)
             {
-                return true
+                resultado = true
+                x = cantidadAlumnos - 1
             }
             else
             {
-                return false
+                resultado = false
+                x++
             }
         }
-        return false
+        return resultado
     }
 
     fun primeraNotaNoAprobada(evaluacion:Int): Double
     {
         var primeraNotaSuspensa : Double = 0.0
+        var x: Int = 0
 
-        for(x in 0..cantidadAlumnos) {
+        while(x !=cantidadAlumnos - 1) {
             evaluaciones[evaluacion - 1][x]
             if (evaluaciones[evaluacion - 1][x]<5.0)
             {
-                var primeraNotaSuspensa = evaluaciones[evaluacion - 1][x]
-
+                primeraNotaSuspensa = evaluaciones[evaluacion - 1][x]
+                x = cantidadAlumnos - 1
+            }
+            else
+            {
+                x++
             }
         }
         return primeraNotaSuspensa
@@ -192,10 +213,10 @@ class Alumno (var id: String, var nombre: String, var ap1:String, var ap2:String
 
 fun main() {
 
-    //Declaramos el número de alumnos que tendrá el módulo
+    //1.Declaramos el número de alumnos que tendrá el módulo
     cantidadAlumnos = 15
 
-    //Ponemos 10 alumnos
+    //1.Ponemos 10 alumnos
     var alumno1 = Alumno("1","Juan","Romero","Gutierrez")
     var alumno2 = Alumno("2","Jose","Boquete","Boqueton")
     var alumno3 = Alumno("3","Japa","Montes","Chorba")
@@ -221,8 +242,85 @@ fun main() {
     Modulo1.añadirAlumnos(alumno9)
     Modulo1.añadirAlumnos(alumno10)
 
-    //Rellenamos las notas de las evaluaciones
+    //1.Rellenamos las notas de las evaluaciones
     Modulo1.generarNotas()
+
+    //2.Calculamos la nota final de los alumnos del modulo
+    print("Nota media del alumno 1: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno1.id))
+    print("Nota media del alumno 2: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno2.id))
+    print("Nota media del alumno 3: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno3.id))
+    print("Nota media del alumno 4: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno4.id))
+    print("Nota media del alumno 5: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno5.id))
+    print("Nota media del alumno 6: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno6.id))
+    print("Nota media del alumno 7: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno7.id))
+    print("Nota media del alumno 8: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno8.id))
+    print("Nota media del alumno 9: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno9.id))
+    print("Nota media del alumno 10: ")
+    println(Modulo1.calculaEvaluacionFinal(alumno10.id))
+
+    //3.Obtenemos la lista de notas de los alumnos
+    println("")
+    print("Notas primera, segunda y tercera evaluación respectivamente")
+    Modulo1.listaNotas(1)
+    Modulo1.listaNotas(2)
+    Modulo1.listaNotas(3)
+    println("")
+    println("")
+
+    //4.Calculamos cuantos alumnos han aprobado por evaluación
+    println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(1) + " alumnos")
+    println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(2) + " alumnos")
+    println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(3) + " alumnos")
+    println("")
+
+    //5.Calculamos la nota más baja del módulo por evaluaciones
+    println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(1))
+    println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(2))
+    println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(3))
+    println("")
+
+    //6.Calculamos la nota más alta del módulo por evaluaciones
+    println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(1))
+    println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(2))
+    println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(3))
+    println("")
+
+    //7.Calculamos nota media por evaluación
+    println("La nota media de la primera evaluación es de " + Modulo1.notaMedia(1))
+    println("La nota media de la segunda evaluación es de " + Modulo1.notaMedia(2))
+    println("La nota media de la tercera evaluación es de " + Modulo1.notaMedia(3))
+    println("")
+
+    //8.Calculamos si hay algún 10 por evaluación
+    println("¿Hay alumnos con 10?")
+    println("En la primera evaluación " +  Modulo1.hayAlumnosConDiez(1))
+    println("En la primera evaluación " +  Modulo1.hayAlumnosConDiez(2))
+    println("En la primera evaluación " +  Modulo1.hayAlumnosConDiez(3))
+    println("")
+
+    //9.Calculamos si hay algún aproabado por evaluación
+    println("¿Hay alumnos aprobados?")
+    println("En la primera evaluación " +  Modulo1.hayAlumnosAprobados(1))
+    println("En la primera evaluación " +  Modulo1.hayAlumnosAprobados(2))
+    println("En la primera evaluación " +  Modulo1.hayAlumnosAprobados(3))
+    println("")
+
+    //10.Calculamos la primera nota que no ha superado el 5 por evaluación
+    println("Las primeras notas suspensas de cada evaluación son")
+    println("En la primera evaluación " + Modulo1.primeraNotaNoAprobada(1))
+    println("En la segunda evaluación " + Modulo1.primeraNotaNoAprobada(2))
+    println("En la tercera evaluación " + Modulo1.primeraNotaNoAprobada(3))
+    println("")
+
 
 
 
