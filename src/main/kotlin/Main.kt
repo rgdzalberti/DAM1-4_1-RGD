@@ -297,20 +297,20 @@ fun main() {
 
     //4.Calculamos cuantos alumnos han aprobado por evaluación
     println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(1) + " alumnos")
-    println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(2) + " alumnos")
-    println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(3) + " alumnos")
+    println("En la segunda evaluación han aprobado " + Modulo1.numeroAprobados(2) + " alumnos")
+    println("En la tercera evaluación han aprobado " + Modulo1.numeroAprobados(3) + " alumnos")
     println("")
 
     //5.Calculamos la nota más baja del módulo por evaluaciones
     println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(1))
-    println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(2))
-    println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(3))
+    println("En la segunda evaluación la nota más baja es " + Modulo1.notaMasBaja(2))
+    println("En la tercera evaluación la nota más baja es " + Modulo1.notaMasBaja(3))
     println("")
 
     //6.Calculamos la nota más alta del módulo por evaluaciones
     println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(1))
-    println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(2))
-    println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(3))
+    println("En la segunda evaluación la nota más alta es " + Modulo1.notaMasAlta(2))
+    println("En la tercera evaluación la nota más alta es " + Modulo1.notaMasAlta(3))
     println("")
 
     //7.Calculamos nota media por evaluación
@@ -322,15 +322,15 @@ fun main() {
     //8.Calculamos si hay algún 10 por evaluación
     println("¿Hay alumnos con 10?")
     println("En la primera evaluación " + Modulo1.hayAlumnosConDiez(1))
-    println("En la primera evaluación " + Modulo1.hayAlumnosConDiez(2))
-    println("En la primera evaluación " + Modulo1.hayAlumnosConDiez(3))
+    println("En la segunda evaluación " + Modulo1.hayAlumnosConDiez(2))
+    println("En la tercera evaluación " + Modulo1.hayAlumnosConDiez(3))
     println("")
 
     //9.Calculamos si hay algún aproabado por evaluación
     println("¿Hay alumnos aprobados?")
     println("En la primera evaluación " + Modulo1.hayAlumnosAprobados(1))
-    println("En la primera evaluación " + Modulo1.hayAlumnosAprobados(2))
-    println("En la primera evaluación " + Modulo1.hayAlumnosAprobados(3))
+    println("En la segunda evaluación " + Modulo1.hayAlumnosAprobados(2))
+    println("En la tercera evaluación " + Modulo1.hayAlumnosAprobados(3))
     println("")
 
     //10.Calculamos la primera nota que no ha superado el 5 por evaluación
