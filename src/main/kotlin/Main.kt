@@ -1,61 +1,54 @@
-var cantidadAlumnos: Int = 3
 
+class Modulo(maxAlumnos: Int){
+    var maxAlumnos = maxAlumnos
+    var alumnos = arrayOfNulls<Alumno>(maxAlumnos)
+    var evaluaciones = Array(4) { FloatArray(maxAlumnos) }
 
-class Modulo {
-
-    var alumnos = arrayOfNulls<Alumno>(cantidadAlumnos)
-    var evaluaciones = Array(4) { DoubleArray(cantidadAlumnos) }
-    //(filas){columnas} <-- al reves /arrayMin arrayMax chikiar
-
-    fun añadirAlumnos(objeto: Alumno) {
-        //meter alumno en el primer null
-        var x: Int = 0
-        while (x != cantidadAlumnos) {
-            if (alumnos[x] == null) {
-                alumnos[x] = objeto
-                x = cantidadAlumnos
-            } else {
-                x++
-            }
-        }
+    /*
+    override fun toString(): String {
+        return "${alumnos.forEach {if (it != null) {it.nombre}}}"
     }
 
+     */
+
+    //He hecho este método para no introducir las notas de manera manual
     fun generarNotas() {
-        for (i in 0..cantidadAlumnos - 1) {
-            evaluaciones[0][i] = (0..10).random().toDouble()
-            evaluaciones[1][i] = (0..10).random().toDouble()
-            evaluaciones[2][i] = (0..10).random().toDouble()
+        for (i in 0..maxAlumnos - 1) {
+            evaluaciones[0][i] = (0..10).random().toFloat()
+            evaluaciones[1][i] = (0..10).random().toFloat()
+            evaluaciones[2][i] = (0..10).random().toFloat()
 
         }
     }
 
-    fun Modulo(maxAlumnos: Int) {
-    }
-
-    fun establecerNota(idAlumno: String, evaluacion: Int, nota: Double) {
+    fun establecerNota(idAlumno:String, evaluacion:Int, nota:Float): Boolean{
         var x: Int = 0
+        var Logrado : Boolean = false
 
         //Este while recorre el array alumnos hasta encontrar un id = idAlumno y obtener su posición
-        while (x != cantidadAlumnos) {
+        while (x != maxAlumnos) {
             if (alumnos[x]?.id == idAlumno) {
-                x = cantidadAlumnos
+                x = maxAlumnos
+                Logrado = true
             } else {
                 x++
             }
         }
 
         evaluaciones[evaluacion - 1][x] = nota
+        return Logrado
     }
 
-    fun calculaEvaluacionFinal(idAlumno: String): Double {
+    //Le he añadido un return por si se quisiera imprimir el resultado
+    fun calculaEvaluacionFinal(idAlumno: String): Float{
         var x: Int = 0
         var y: Int = 0
 
 
         //Este while recorre el array alumnos hasta encontrar un id = idAlumno y obtener su posición
-        while (y != cantidadAlumnos - 1) {
+        while (y != maxAlumnos - 1) {
             if (alumnos[y]?.id == idAlumno) {
-                y = cantidadAlumnos - 1
+                y = maxAlumnos - 1
             } else {
                 y++
                 x++
@@ -66,157 +59,97 @@ class Modulo {
         notaFinal = notaFinal / 3
 
         return notaFinal
-
     }
 
-    fun listaNotas(evaluacion: Int) {
-        println("")
-        for (x in 0..cantidadAlumnos - 1) {
-            print(evaluaciones[evaluacion - 1][x])
-            print(", ")
+    fun listaNotas(evaluacion:Int): List<Pair<Alumno, Float>>
+    {
+
+        val listaNotas: MutableList<Pair<Alumno, Float>> = mutableListOf()
+
+        for (i in 0 until maxAlumnos)
+        {
+            if (alumnos[i] != null) listaNotas.add(Pair(alumnos[i]!!,evaluaciones[evaluacion - 1][i]))
         }
+        return listaNotas
     }
 
-    fun numeroAprobados(evaluacion: Int): Int {
-        var aprobados: Int = 0
-
-        for (x in 0..cantidadAlumnos - 1) {
-
-            evaluaciones[evaluacion - 1][x]
-
-            if (evaluaciones[evaluacion - 1][x] < 5) {
-                aprobados++
-            }
-
-        }
-
-        return aprobados
+    fun numeroAprobados(evaluacion:Int): Int{
+        var numeroAprobados: Int = 0
+        for (i in 0 until maxAlumnos) {if (evaluaciones[evaluacion - 1][i] >= 5) {numeroAprobados++} }
+        return numeroAprobados
     }
 
-    fun notaMasBaja(evaluacion: Int): Double? {
-        var notaMasBaja = evaluaciones[evaluacion - 1].minOrNull()
+    fun notaMasBaja(evaluacion: Int): Float {
+        var notaMasBaja = evaluaciones[evaluacion - 1].minOrNull()!!
         return notaMasBaja
     }
 
-    fun notaMasAlta(evaluacion: Int): Double? {
-
-        var notaMasAlta = evaluaciones[evaluacion - 1].maxOrNull()
+    fun notaMasAlta(evaluacion: Int): Float {
+        var notaMasAlta = evaluaciones[evaluacion - 1].maxOrNull()!!
         return notaMasAlta
-
     }
 
-    fun notaMedia(evaluacion: Int): Double {
-        var notaMedia: Double = 0.0
-
-        for (x in 0..cantidadAlumnos - 1) {
-            notaMedia = notaMedia + evaluaciones[evaluacion - 1][x]
-        }
-
-        notaMedia = notaMedia / cantidadAlumnos
+    fun notaMedia(evaluacion: Int): Float {
+        var notaMedia: Float = 0F
+        for (x in 0..maxAlumnos - 1) { notaMedia = notaMedia + evaluaciones[evaluacion - 1][x] }
+        notaMedia = notaMedia / maxAlumnos
         return notaMedia
 
     }
 
-    fun hayAlumnosConDiez(evaluacion: Int): Boolean {
-        var resultado: Boolean = true
-        var x: Int = 0
-
-        while (x != cantidadAlumnos - 1) {
-            evaluaciones[evaluacion - 1][x]
-            if (evaluaciones[evaluacion - 1][x] == 10.0) {
-                resultado = true
-                x = cantidadAlumnos - 1
-            } else {
-                resultado = false
-                x++
-            }
-        }
-        return resultado
+    fun hayAlumnosConDiez(evaluacion:Int): Boolean
+    {
+        return evaluaciones[evaluacion -1].any {it == 10F}
     }
 
-    fun hayAlumnosAprobados(evaluacion: Int): Boolean {
-        var resultado: Boolean = true
-        var x: Int = 0
-
-        while (x != cantidadAlumnos - 1) {
-            evaluaciones[evaluacion - 1][x]
-            if (evaluaciones[evaluacion - 1][x] >= 5.0) {
-                resultado = true
-                x = cantidadAlumnos - 1
-            } else {
-                resultado = false
-                x++
-            }
-        }
-        return resultado
+    fun hayAlumnosAprobados(evaluacion:Int): Boolean{
+        return evaluaciones[evaluacion - 1].any {it >= 5.0F}
     }
 
-    fun primeraNotaNoAprobada(evaluacion: Int): Double {
-        var primeraNotaSuspensa: Double = 0.0
-        var x: Int = 0
+    fun primeraNotaNoAprobada(evaluacion:Int): Float?{
+        return evaluaciones[evaluacion -1].find {it < 5.0F}
+    }
 
-        while (x != cantidadAlumnos - 1) {
-            evaluaciones[evaluacion - 1][x]
-            if (evaluaciones[evaluacion - 1][x] < 5.0) {
-                primeraNotaSuspensa = evaluaciones[evaluacion - 1][x]
-                x = cantidadAlumnos - 1
+    fun listaNotasOrdenados(evaluacion:Int):  List<Pair<Alumno, Float>>{
+        return listaNotas(evaluacion).sortedBy { it.second }
+    }
+
+    //Si returnea un false es porque la lista está llena
+    fun matricularAlumno(alumno:Alumno): Boolean{
+        //meter alumno en el primer null
+        var x: Int = 0
+        var Logrado: Boolean = false
+        while (x != maxAlumnos) {
+            if (alumnos[x] == null) {
+                alumnos[x] = alumno
+                x = maxAlumnos
+                Logrado = true
             } else {
                 x++
             }
         }
-        return primeraNotaSuspensa
+        return Logrado
     }
 
-    /*
-    fun listaNotasOrdenados(evaluacion: Int): List<Pair<Int,Float>>{
-        val listNotas = listaNotas(evaluacion)
-        listNotas.sortBy {it.second}
-        return listNotas
-    }
-     */
-
-    fun matricularAlumno(alumno: Alumno): Boolean {
-        var x: Int = 0
-        var bool: Boolean = false
-
-        while (x != cantidadAlumnos - 1) {
-            if (alumnos[cantidadAlumnos - 1] == null) {
-                if (alumnos[x] == null) {
-                    alumnos[x] = alumno
-                    bool = true
-                    x = cantidadAlumnos - 1
-                } else {
-                    x++
-                }
-            } else {
-                bool = false
-                x = cantidadAlumnos - 1
-            }
-
-        }
-
-        return bool
-    }
-
-    fun bajaAlumno(idAlumno: String): Boolean {
-        var bool: Boolean = false
+    fun bajaAlumno(idAlumno:String): Boolean{
+        var Logrado: Boolean = false
         var x: Int = 0
 
-        while (x != cantidadAlumnos - 1) {
+        while (x != maxAlumnos - 1) {
             alumnos[x]
             if (alumnos[x]?.id == idAlumno) {
                 alumnos[x] = null
-                bool = true
-                x = cantidadAlumnos - 1
+                Logrado = true
+                x = maxAlumnos - 1
             } else {
                 x++
             }
         }
-        return bool
+        return Logrado
     }
 }
 
-class Alumno(var id: String, var nombre: String, var ap1: String, var ap2: String) {
+class Alumno(var id: String, var nombre: String, var ap1: String, var ap2: String){
     init {
         require(id.isNotEmpty())
         require(nombre.isNotEmpty())
@@ -225,10 +158,8 @@ class Alumno(var id: String, var nombre: String, var ap1: String, var ap2: Strin
     }
 }
 
-fun main() {
 
-    //1.Declaramos el número de alumnos que tendrá el módulo
-    cantidadAlumnos = 15
+fun main(){
 
     //1.Ponemos 10 alumnos
     var alumno1 = Alumno("1", "Juan", "Romero", "Gutierrez")
@@ -242,24 +173,24 @@ fun main() {
     var alumno9 = Alumno("9", "Una", "Vez", "Más")
     var alumno10 = Alumno("10", "Cojo", "Una", "Papa")
 
+
     //Alumnos extras (Para experimentar con añadir y eliminar alumno)
     var alumno11 = Alumno("11", "Pim", "Pam", "Trucu")
     var alumno12 = Alumno("12", "Pamela", "Busca", "Cuevas")
     var alumno13 = Alumno("13", "Oraldine", "Que", "Bueno")
 
+    var Modulo1 = Modulo(15)
 
-    var Modulo1 = Modulo()
-
-    Modulo1.añadirAlumnos(alumno1)
-    Modulo1.añadirAlumnos(alumno2)
-    Modulo1.añadirAlumnos(alumno3)
-    Modulo1.añadirAlumnos(alumno4)
-    Modulo1.añadirAlumnos(alumno5)
-    Modulo1.añadirAlumnos(alumno6)
-    Modulo1.añadirAlumnos(alumno7)
-    Modulo1.añadirAlumnos(alumno8)
-    Modulo1.añadirAlumnos(alumno9)
-    Modulo1.añadirAlumnos(alumno10)
+    Modulo1.matricularAlumno(alumno1)
+    Modulo1.matricularAlumno(alumno2)
+    Modulo1.matricularAlumno(alumno3)
+    Modulo1.matricularAlumno(alumno4)
+    Modulo1.matricularAlumno(alumno5)
+    Modulo1.matricularAlumno(alumno6)
+    Modulo1.matricularAlumno(alumno7)
+    Modulo1.matricularAlumno(alumno8)
+    Modulo1.matricularAlumno(alumno9)
+    Modulo1.matricularAlumno(alumno10)
 
     //1.Rellenamos las notas de las evaluaciones
     Modulo1.generarNotas()
@@ -289,28 +220,29 @@ fun main() {
     //3.Obtenemos la lista de notas de los alumnos
     println("")
     print("Notas primera, segunda y tercera evaluación respectivamente")
-    Modulo1.listaNotas(1)
-    Modulo1.listaNotas(2)
-    Modulo1.listaNotas(3)
+    println("")
+    println(Modulo1.listaNotas(1))
+    println(Modulo1.listaNotas(2))
+    println(Modulo1.listaNotas(3))
     println("")
     println("")
 
     //4.Calculamos cuantos alumnos han aprobado por evaluación
     println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(1) + " alumnos")
-    println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(2) + " alumnos")
-    println("En la primera evaluación han aprobado " + Modulo1.numeroAprobados(3) + " alumnos")
+    println("En la segunda evaluación han aprobado " + Modulo1.numeroAprobados(2) + " alumnos")
+    println("En la tercera evaluación han aprobado " + Modulo1.numeroAprobados(3) + " alumnos")
     println("")
 
     //5.Calculamos la nota más baja del módulo por evaluaciones
     println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(1))
-    println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(2))
-    println("En la primera evaluación la nota más baja es " + Modulo1.notaMasBaja(3))
+    println("En la segunda evaluación la nota más baja es " + Modulo1.notaMasBaja(2))
+    println("En la tercera evaluación la nota más baja es " + Modulo1.notaMasBaja(3))
     println("")
 
     //6.Calculamos la nota más alta del módulo por evaluaciones
     println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(1))
-    println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(2))
-    println("En la primera evaluación la nota más alta es " + Modulo1.notaMasAlta(3))
+    println("En la segunda evaluación la nota más alta es " + Modulo1.notaMasAlta(2))
+    println("En la tercera evaluación la nota más alta es " + Modulo1.notaMasAlta(3))
     println("")
 
     //7.Calculamos nota media por evaluación
@@ -322,15 +254,15 @@ fun main() {
     //8.Calculamos si hay algún 10 por evaluación
     println("¿Hay alumnos con 10?")
     println("En la primera evaluación " + Modulo1.hayAlumnosConDiez(1))
-    println("En la primera evaluación " + Modulo1.hayAlumnosConDiez(2))
-    println("En la primera evaluación " + Modulo1.hayAlumnosConDiez(3))
+    println("En la segunda evaluación " + Modulo1.hayAlumnosConDiez(2))
+    println("En la tercera evaluación " + Modulo1.hayAlumnosConDiez(3))
     println("")
 
     //9.Calculamos si hay algún aproabado por evaluación
     println("¿Hay alumnos aprobados?")
     println("En la primera evaluación " + Modulo1.hayAlumnosAprobados(1))
-    println("En la primera evaluación " + Modulo1.hayAlumnosAprobados(2))
-    println("En la primera evaluación " + Modulo1.hayAlumnosAprobados(3))
+    println("En la segunda evaluación " + Modulo1.hayAlumnosAprobados(2))
+    println("En la tercera evaluación " + Modulo1.hayAlumnosAprobados(3))
     println("")
 
     //10.Calculamos la primera nota que no ha superado el 5 por evaluación
@@ -341,9 +273,12 @@ fun main() {
     println("")
 
     //11.Imprimir ordenado
-    //Modulo1.listaNotasOrdenados(1)
+    println("La lista de notas ordenadas es: ")
+    println(Modulo1.listaNotasOrdenados(1))
+    println("")
 
     //12.Matricular alumno - printea un true si se añade y false si no
+    println("¿Se han matriculado los alumnos?")
     println(Modulo1.matricularAlumno(alumno11))
     println(Modulo1.matricularAlumno(alumno11))
     println(Modulo1.matricularAlumno(alumno11))
@@ -352,6 +287,8 @@ fun main() {
     println("")
 
     //13. Dar baja alumnos - printea true si se ha dado de baja y false si no
+    println("¿Se ha dado de baja al alumno?")
     println(Modulo1.bajaAlumno("1"))
 
 }
+
